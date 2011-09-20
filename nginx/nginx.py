@@ -2,7 +2,7 @@ from cuisine.cuisine import package_ensure
 from fabric.contrib.files import upload_template
 from fabric.decorators import task
 from fabric.operations import sudo
-from fabric_bricks.config import *
+from fabconfig import *
 
 site_conf_source = 'fabric_bricks/nginx/conf/nginx-site.conf'
 site_conf_destination = '/etc/nginx/sites-enabled/travtar'

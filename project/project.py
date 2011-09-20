@@ -1,7 +1,7 @@
 from fabric.decorators import task
 from fabric.operations import run
 from fabric.contrib.files import exists
-from fabric_bricks.config import *
+from fabconfig import *
 
 
 @task

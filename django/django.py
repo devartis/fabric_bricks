@@ -1,7 +1,7 @@
 from fabric.decorators import task
 from fabric.contrib.files import upload_template
 from fabric.operations import local
-from fabric_bricks.config import *
+from fabconfig import *
 
 settings_source = 'fabric_bricks/django/conf/settings.py'
 settings_destination = project_dir + 'settings.py'

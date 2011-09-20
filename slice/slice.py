@@ -1,7 +1,7 @@
 from cuisine.cuisine import user_check, user_create, group_user_add
 from fabric.decorators import task
 from fabric.utils import abort
-from fabric_bricks.config import *
+from fabconfig import *
 
 
 @task

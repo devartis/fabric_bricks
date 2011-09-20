@@ -1,7 +1,7 @@
 from fabric.decorators import task
 from fabric.operations import local
 from fabric_bricks.utils import packages_ensure
-from fabric_bricks.config import *
+from fabconfig import *
 
 @task
 def ensure():

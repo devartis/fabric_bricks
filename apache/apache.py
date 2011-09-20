@@ -2,7 +2,7 @@ from fabric.contrib.files import upload_template, contains, append
 from fabric.decorators import task
 from fabric.operations import sudo
 from fabric_bricks.utils import packages_ensure
-from fabric_bricks.config import *
+from fabconfig import *
 
 config_source = 'fabric_bricks/apache/conf/virtual-host.conf'
 config_destination = '/etc/apache2/sites-enabled/001-travtar'

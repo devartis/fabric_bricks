@@ -1,7 +1,7 @@
 from fabric.decorators import task
 from fabric.operations import local, run
 from fabric.utils import abort
-from fabric_bricks.config import *
+from fabconfig import *
 
 
 @task

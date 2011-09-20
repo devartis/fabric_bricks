@@ -2,7 +2,7 @@ from fabric.contrib.files import append, exists
 from fabric.decorators import task
 from fabric.operations import run, sudo
 from fabric.context_managers import prefix, cd
-from fabric_bricks.config import *
+from fabconfig import *
 from fabric_bricks.utils import *
 
 
