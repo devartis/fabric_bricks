@@ -1,7 +1,14 @@
 from fabric.decorators import task
 from fabric.operations import local, run
 from fabric.utils import abort
-from fabconfig import *
+from fabcuando le doy un purge a veces queda en negativo
+tengo que resetearla 06:45:05 PM
+ahi esta liberando 06:47:32 PM
+creo que fue que pudimos procesar mas rapido los acumulados de meli 06:47:48 PM
+y diparo muchos eventos 06:47:53 PM
+vemos a tener que separar las colas de meli me parece 06:48:03 PM
+porque puede joder a los clientes 06:48:13 PM
+config import *
 
 
 @task

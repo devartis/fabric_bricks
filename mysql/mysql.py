@@ -32,18 +32,20 @@ def download_last_backup():
 
 @task
 def drop_schema():
-    local('mysql -u%(mysql_user)s -e "DROP SCHEMA IF EXISTS %(mysql_db_name)s"' % {
+    pass_parameter = ("-p" + mysql_pass) if mysql_pass != "" else ""
+    local('mysql -u%(mysql_user)s %(pass_parameter)s -e "DROP SCHEMA IF EXISTS %(mysql_db_name)s"' % {
         "mysql_user": mysql_user,
-        "mysql_pass": mysql_pass,
+        "pass_parameter": pass_parameter,
         "mysql_db_name": mysql_db_name,
         })
 
 
 @task
 def create_schema():
-    local('mysql -u%(mysql_user)s -e "CREATE SCHEMA %(mysql_db_name)s"' % {
+    pass_parameter = ("-p" + mysql_pass) if mysql_pass != "" else ""
+    local('mysql -u%(mysql_user)s %(pass_parameter)s -e "CREATE SCHEMA %(mysql_db_name)s"' % {
         "mysql_user": mysql_user,
-        "mysql_pass": mysql_pass,
+        "pass_parameter": pass_parameter,
         "mysql_db_name": mysql_db_name,
         })
 

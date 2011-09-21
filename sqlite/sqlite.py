@@ -2,6 +2,7 @@ from fabric.decorators import task
 from fabric.operations import local
 import os
 from fabric_bricks.utils import packages_ensure
+import settings
 
 @task
 def ensure():
@@ -12,11 +13,11 @@ def ensure():
     packages_ensure(['sqlite'])
 
 
+@task
 def clear():
     """
     Recreate de db schema.
     """
-    import settings
 
     file_name = settings.DATABASES['default']['NAME']
 
