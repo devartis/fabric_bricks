@@ -5,7 +5,8 @@ from fabric_bricks.mysql.mysql import clear as mysql_clear
 from fabric_bricks.sqlite.sqlite import clear as sqlite_clear
 import settings
 
-def using_sqlite():
+
+def using_sqlite(settings=settings):
     return settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3'
 
 
