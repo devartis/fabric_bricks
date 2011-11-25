@@ -1,11 +1,11 @@
+from fabric.context_managers import cd
 from fabric.decorators import task
 from fabric.contrib.files import upload_template
-from fabric.operations import local
-from fabconfig import *
+from fabric.state import env
+
+from fabric_bricks.utils import execute, virtualenv
 
 settings_source = 'fabric_bricks/django/conf/settings.py'
-settings_destination = project_dir + 'settings.py'
-
 wsgi_source = 'fabric_bricks/django/conf/wsgi.py'
 
 @task
@@ -14,7 +14,7 @@ def copy_production_settings():
     Copy Production settings.py to site.
     """
 
-    upload_template(settings_source, settings_destination, backup=False,
+    upload_template(settings_source, env.root + 'settings.py', backup=False,
                     context={
                         'db_name': mysql_db_name,
                         'db_user': mysql_user,
@@ -36,5 +36,14 @@ def copy_wsgi_config():
                         'project_name': django_project_name,
                         })
 
+def dropdb(settings):
+    for app in settings.APP_MODULES:
+        with cd(env.root):
+            with virtualenv():
+                #execute('./manage.py sqlclear %s | ./manage.py dbshell' % {'app':app}.update(env))
+                execute('./manage.py sqlclear %s | ./manage.py dbshell' % app)
+
 def syncdb():
-    local('./manage.py syncdb --noinput')
+    with cd(env.root):
+        with virtualenv():
+            execute('./manage.py syncdb --noinput --settings=%(settings)s' % env)

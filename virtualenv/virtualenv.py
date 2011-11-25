@@ -48,7 +48,7 @@ def create():
 
 
 def work_on():
-    return 'workon %s' % virtual_env_name
+    return 'workon %(virtual_env_name)s' % env
 
 
 def virtual_env_site_packages_dir():

@@ -1,8 +1,6 @@
-from fabric.decorators import task
-from fabric.operations import local
+from fabric.api import task
+from fabric_bricks.utils import packages_ensure, execute
 import os
-from fabric_bricks.utils import packages_ensure
-import settings
 
 @task
 def ensure():
@@ -18,9 +16,9 @@ def clear():
     """
     Recreate de db schema.
     """
-
+    from django.conf import settings
     file_name = settings.DATABASES['default']['NAME']
 
     if os.path.exists(file_name):
-        local('rm %s' % file_name)
+        execute('rm %s' % file_name)
 

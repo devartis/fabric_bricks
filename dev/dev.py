@@ -1,12 +1,9 @@
-from fabric.decorators import task
-from fabric.operations import local
-from fabric_bricks.django.django import syncdb
-from fabric_bricks.mysql.mysql import clear as mysql_clear
-from fabric_bricks.sqlite.sqlite import clear as sqlite_clear
-import settings
+from fabric.api import local, task
+from fabric_bricks.django.django import syncdb, dropdb
+from fabric_bricks.utils import virtualenv
 
-
-def using_sqlite(settings=settings):
+def using_sqlite():
+    from django.conf import settings
     return settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3'
 
 
@@ -15,13 +12,10 @@ def recreate_db():
     """
     Recreate the db schema.
     """
-
-    if using_sqlite():
-        sqlite_clear()
-    else:
-        mysql_clear()
-
-    syncdb()
+    from django.conf import settings
+    with virtualenv():
+        dropdb(settings)
+        syncdb()
 
 
 @task
