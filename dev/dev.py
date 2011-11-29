@@ -1,6 +1,5 @@
 from fabric.api import local, task
 from fabric_bricks.django.django import syncdb, dropdb
-from fabric_bricks.utils import virtualenv
 
 def using_sqlite():
     from django.conf import settings
@@ -13,9 +12,8 @@ def recreate_db():
     Recreate the db schema.
     """
     from django.conf import settings
-    with virtualenv():
-        dropdb(settings)
-        syncdb()
+    dropdb(settings.INSTALLED_APPS)
+    syncdb()
 
 
 @task

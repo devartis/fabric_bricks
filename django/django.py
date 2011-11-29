@@ -36,14 +36,19 @@ def copy_wsgi_config():
                         'project_name': django_project_name,
                         })
 
-def dropdb(settings):
-    for app in settings.APP_MODULES:
+def dropdb(apps):
+    for app in apps:
         with cd(env.root):
             with virtualenv():
-                #execute('./manage.py sqlclear %s | ./manage.py dbshell' % {'app':app}.update(env))
                 execute('./manage.py sqlclear %s | ./manage.py dbshell' % app)
 
 def syncdb():
     with cd(env.root):
         with virtualenv():
             execute('./manage.py syncdb --noinput --settings=%(settings)s' % env)
+
+            
+def collect_static():
+    with cd(env.root):
+        with virtualenv():
+            execute('./manage.py collectstatic --noinput')

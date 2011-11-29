@@ -22,6 +22,10 @@ def execute(*args, **kwargs):
 
 def virtualenv():
     require('virtual_env_name')
+
+    if not env.remote:
+        return prefix('echo')
+
     with prefix('export WORKON_HOME=~/python_envs'):
         with prefix('source /usr/local/bin/virtualenvwrapper.sh'):
             return prefix('workon %(virtual_env_name)s' % env)
