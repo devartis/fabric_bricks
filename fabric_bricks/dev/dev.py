@@ -1,5 +1,6 @@
 from fabric.api import local, task
 from fabric_bricks.django.django import syncdb, dropdb
+from fabric_bricks.utils import execute
 
 def using_sqlite():
     from django.conf import settings
@@ -21,7 +22,9 @@ def unit_tests():
     """
     Run unit tests.
     """
-    local('nosetests -w user_profile/tests/unit')
+    from django.conf import settings
+    for app in settings.APP_MODULES:
+        execute('nosetests -w %s/tests/unit' % app)
 
 
 @task
@@ -29,9 +32,9 @@ def integration_tests():
     """
     Run integration tests.
     """
-
-    local('nosetests -w user_profile/tests/integration')
-    local('nosetests -w hotels/tests/integration')
+    from django.conf import settings
+    for app in settings.APP_MODULES:
+        execute('nosetests -w %s/tests/integration' % app)
 
 
 @task
@@ -39,8 +42,9 @@ def acceptance_tests():
     """
     Run acceptance tests.
     """
-
-    local('nosetests -w user_profile/tests/acceptance')
+    from django.conf import settings
+    for app in settings.APP_MODULES:
+        execute('nosetests -w %s/tests/acceptance' % app)
 
 
 @task
