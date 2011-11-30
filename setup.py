@@ -8,5 +8,5 @@ setup(name='fabric_bricks',
       author='German Krauss',
       author_email='german@devartis.com',
       url='www.devartis.com',
-      packages=[''],
+      packages=['fabric_bricks'],
      )

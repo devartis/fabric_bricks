@@ -1,0 +1,14 @@
+#from fabric_deploy.apache import apache
+#from fabric_bricks.nginx import nginx
+#from fabric_bricks.slice import slice
+#from fabric_bricks.project import project
+#from fabric_bricks.svn import svn
+#from fabric_bricks.django import django
+#from fabric_bricks.mysql import mysql
+#from fabric_bricks.deploy import deploy
+from fabric_bricks.virtualenv import virtualenv
+
+from fabric_bricks.dev import dev
+from fabric_bricks.pip import pip
+from fabric_bricks.travtar import travtar
+
