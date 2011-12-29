@@ -37,11 +37,29 @@ def copy_wsgi_config():
                         })
 
 def dropdb(apps):
+    # Invert apps to avoid dependency problems.
+    apps = list(apps)
+    apps.reverse()
+
+    failed_apps = []
+
     for app in apps:
         app = app.split('.')[-1]
         with cd(env.root):
             with virtualenv():
-                execute('./manage.py sqlclear %s | ./manage.py dbshell' % app)
+                try:
+                    # We need to split DROP TABLEs from DROP FK because MySQL aborts if the FK doesn't exists
+                    try:
+                        execute('./manage.py sqlclear %s | grep "DROP FOREIGN KEY" | ./manage.py dbshell' % app)
+                    except:
+                        # Ignore errors while dropping FK.
+                        pass
+                    execute('./manage.py sqlclear %s | grep "DROP TABLE" | ./manage.py dbshell' % app)
+                except:
+                    failed_apps.insert(0, app)
+
+    if failed_apps:
+        dropdb(failed_apps)
 
 def syncdb():
     with cd(env.root):
