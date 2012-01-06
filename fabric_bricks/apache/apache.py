@@ -9,6 +9,7 @@ config_destination = '/etc/apache2/sites-enabled/001-travtar'
 
 httpd_conf_path = '/etc/apache2/httpd.conf'
 
+
 @task
 def ensure():
     """
@@ -31,6 +32,7 @@ def copy_virtual_host_config():
 def set_server_name():
     if not contains(httpd_conf_path, 'ServerName .*$'):
         append(httpd_conf_path, 'ServerName localhost', use_sudo=True)
+
 
 @task
 def configure():

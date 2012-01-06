@@ -8,7 +8,7 @@ def create_tag(tag=None):
     """
     Create an svn tag.
     """
-    
+
     if tag is None:
         abort('Please, provide a tag to checkout. Like "fab create_tag:tag=0_1"')
 

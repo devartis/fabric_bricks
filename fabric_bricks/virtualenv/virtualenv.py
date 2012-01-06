@@ -15,17 +15,17 @@ def install_virtual_env_wrapper():
 
     if exists(virtual_envs_dir):
         return
-    
+
     run('mkdir %s' % virtual_envs_dir)
     append('~/.bashrc', 'export WORKON_HOME=%s' % virtual_envs_dir)
     append('~/.bashrc', 'source $(which virtualenvwrapper.sh)')
     run('source ~/.bashrc')
 
-    
+
 def create_virtual_env_dir():
     if exists(virtual_env_dir):
         return
-    
+
     with prefix('export WORKON_HOME=%s' % virtual_envs_dir, ):
         with prefix('source $(which virtualenvwrapper.sh)'):
             run('mkvirtualenv --no-site-packages  %s' % virtual_env_name)
@@ -41,7 +41,7 @@ def ensure():
     install_virtual_env_wrapper()
     create_virtual_env_dir()
 
-    
+
 @task
 def create():
     raise NotImplementedError

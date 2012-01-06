@@ -3,6 +3,7 @@ from fabric.operations import local
 from fabric_bricks.utils import packages_ensure
 from fabconfig import *
 
+
 @task
 def ensure():
     """
@@ -29,6 +30,7 @@ def download_last_backup():
     """
 
     raise NotImplementedError
+
 
 @task
 def drop_schema():

@@ -15,8 +15,8 @@ DATABASES = {
         },
 }
 
-MEDIA_URL= 'http://%(server_ip)s/static/'
-STATIC_URL= "http://%(server_ip)s/static/"
+MEDIA_URL = 'http://%(server_ip)s/static/'
+STATIC_URL = "http://%(server_ip)s/static/"
 ADMIN_MEDIA_PREFIX = 'http://%(server_ip)s/static/admin/'
 STATIC_ROOT = '%(static_dir)s'
 

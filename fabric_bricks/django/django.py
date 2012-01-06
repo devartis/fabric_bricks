@@ -8,6 +8,7 @@ from fabric_bricks.utils import execute, virtualenv
 settings_source = 'fabric_bricks/django/conf/settings.py'
 wsgi_source = 'fabric_bricks/django/conf/wsgi.py'
 
+
 @task
 def copy_production_settings():
     """
@@ -23,6 +24,7 @@ def copy_production_settings():
                         'static_dir': static_dir,
                         })
 
+
 @task
 def copy_wsgi_config():
     """
@@ -35,6 +37,7 @@ def copy_wsgi_config():
                         'project_dir': project_dir,
                         'project_name': django_project_name,
                         })
+
 
 def dropdb(apps):
     # Invert apps to avoid dependency problems.
@@ -50,16 +53,17 @@ def dropdb(apps):
                 try:
                     # We need to split DROP TABLEs from DROP FK because MySQL aborts if the FK doesn't exists
                     try:
-                        execute('./manage.py sqlclear %s | grep "DROP FOREIGN KEY" | ./manage.py dbshell' % app)
+                        execute('./manage.py sqlclear %(app)s --settings=%(settings)s | grep "DROP FOREIGN KEY" | ./manage.py dbshell --settings=%(settings)s' % {'app': app, 'settings': env.settings})
                     except:
                         # Ignore errors while dropping FK.
                         pass
-                    execute('./manage.py sqlclear %s | grep "DROP TABLE" | ./manage.py dbshell' % app)
+                    execute('./manage.py sqlclear %(app)s --settings=%(settings)s | grep "DROP TABLE" | ./manage.py dbshell --settings=%(settings)s' % {'app': app, 'settings': env.settings})
                 except:
                     failed_apps.insert(0, app)
 
     if failed_apps:
         dropdb(failed_apps)
+
 
 def syncdb():
     with cd(env.root):
@@ -70,5 +74,4 @@ def syncdb():
 def collect_static():
     with cd(env.root):
         with virtualenv():
-            execute('./manage.py collectstatic --noinput')
-
+            execute('./manage.py collectstatic --noinput --settings=%(settings)s' % env)

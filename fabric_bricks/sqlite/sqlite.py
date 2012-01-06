@@ -2,6 +2,7 @@ from fabric.api import task
 from fabric_bricks.utils import packages_ensure, execute
 import os
 
+
 @task
 def ensure():
     """
@@ -21,4 +22,3 @@ def clear():
 
     if os.path.exists(file_name):
         execute('rm %s' % file_name)
-

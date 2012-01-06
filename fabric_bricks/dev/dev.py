@@ -2,6 +2,7 @@ from fabric.api import local, task
 from fabric_bricks.django.django import syncdb, dropdb
 from fabric_bricks.utils import execute
 
+
 def using_sqlite():
     from django.conf import settings
     return settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3'

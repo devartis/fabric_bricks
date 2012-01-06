@@ -17,8 +17,7 @@ def create_devartis_user(user=None, password=None):
 
     env.user = user
     env.password = password
-    
+
     if not user_check(user_name):
         user_create(user_name, user_pass, shell='/bin/bash')
         group_user_add(admin_group, user_name)
-
