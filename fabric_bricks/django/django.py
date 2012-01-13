@@ -65,10 +65,12 @@ def dropdb(apps):
         dropdb(failed_apps)
 
 
-def syncdb():
+def syncdb(apps):
     with cd(env.root):
         with virtualenv():
             execute('./manage.py syncdb --noinput --settings=%(settings)s' % env)
+            if 'south' in apps:
+                execute('./manage.py migrate --settings=%(settings)s' % env)
 
 
 def collect_static():

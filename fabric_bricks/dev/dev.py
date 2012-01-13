@@ -15,7 +15,7 @@ def recreate_db():
     """
     from django.conf import settings
     dropdb(settings.INSTALLED_APPS)
-    syncdb()
+    syncdb(settings.INSTALLED_APPS)
 
 
 @task
