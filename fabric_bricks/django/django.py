@@ -1,7 +1,6 @@
-from fabric.context_managers import cd
-from fabric.decorators import task
-from fabric.contrib.files import upload_template
 from fabric.state import env
+from fabric.api import cd, task, require
+from fabric.contrib.files import upload_template
 
 from fabric_bricks.utils import execute, virtualenv
 
@@ -66,14 +65,24 @@ def dropdb(apps):
 
 
 def syncdb(apps):
+    require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
             execute('./manage.py syncdb --noinput --settings=%(settings)s' % env)
-            if 'south' in apps:
+    if 'south' in apps:
+        migrate()
+
+
+def migrate():
+    require('root', provided_by=('An environment task'))
+    with cd(env.root):
+        with virtualenv():
                 execute('./manage.py migrate --settings=%(settings)s' % env)
 
 
 def collect_static():
+    require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
             execute('./manage.py collectstatic --noinput --settings=%(settings)s' % env)
+
