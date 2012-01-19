@@ -73,11 +73,14 @@ def syncdb(apps):
         migrate()
 
 
-def migrate():
+def migrate(initial_data=False):
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
+            if initial_data:
                 execute('./manage.py migrate --settings=%(settings)s' % env)
+            else:
+                execute('./manage.py migrate --no-initial-data --settings=%(settings)s' % env)
 
 
 def collect_static():
