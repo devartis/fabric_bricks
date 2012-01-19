@@ -1,7 +1,7 @@
+from random import Random
 from cuisine.cuisine import package_ensure
 from fabric.context_managers import prefix
-from fabric.api import run, local
-from fabric.operations import require
+from fabric.api import run, local, require, prompt
 from fabric.state import env
 
 
@@ -32,3 +32,22 @@ def virtualenv():
     with prefix('export WORKON_HOME=~/python_envs'):
         with prefix('source /usr/local/bin/virtualenvwrapper.sh'):
             return prefix('workon %(virtual_env_name)s' % env)
+
+
+def strong_confirm(msg):
+    x = Random().randint(10, 30)
+    y = Random().randint(10, 30)
+    z = str(x + y)
+    if msg:
+        response = prompt("%s\nTo continue solve this %d + %d:" % (msg, x, y)).lower().strip()
+    else:
+        response = prompt("To continue solve this %d + %d:" % (x, y)).lower().strip()
+
+    if response in ['no', 'n']:
+        return False
+
+    if response == z:
+        return True
+
+    print("Wrong answer! Please specify the correct answer or '(n)o'.")
+    return strong_confirm(None)
