@@ -64,13 +64,13 @@ def dropdb(apps):
         dropdb(failed_apps)
 
 
-def syncdb(apps):
+def syncdb(apps, initial_data=False):
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
             execute('./manage.py syncdb --noinput --settings=%(settings)s' % env)
     if 'south' in apps:
-        migrate()
+        migrate(initial_data)
 
 
 def migrate(initial_data=False):
