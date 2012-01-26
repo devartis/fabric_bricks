@@ -29,7 +29,12 @@ def virtualenv():
     if not env.remote:
         return prefix('echo')
 
-    with prefix('export WORKON_HOME=~/python_envs'):
+    if not env.virtual_env_workon_home:
+        workon_home = '~/python_envs'
+    else:
+        workon_home = env.virtual_env_workon_home
+
+    with prefix('export WORKON_HOME=%s' % workon_home):
         with prefix('source /usr/local/bin/virtualenvwrapper.sh'):
             return prefix('workon %(virtual_env_name)s' % env)
 
