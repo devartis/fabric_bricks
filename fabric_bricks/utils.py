@@ -29,7 +29,7 @@ def virtualenv():
     if not env.remote:
         return prefix('echo')
 
-    if not env.virtual_env_workon_home:
+    if not hasattr(env, 'virtual_env_workon_home'):
         workon_home = '~/python_envs'
     else:
         workon_home = env.virtual_env_workon_home
