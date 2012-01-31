@@ -3,9 +3,10 @@ from fabric.state import env
 from fabric_bricks.utils import execute, virtualenv
 
 
-def dropdb(apps):
+def dropdb():
     # Invert apps to avoid dependency problems.
-    apps = list(apps)
+    from django.conf import settings
+    apps = list(settings.INSTALLED_APPS)
     apps.reverse()
 
     failed_apps = []
@@ -29,12 +30,13 @@ def dropdb(apps):
         dropdb(failed_apps)
 
 
-def syncdb(apps, initial_data=False):
+def syncdb(initial_data=False):
+    from django.conf import settings
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
             execute('./manage.py syncdb --noinput --settings=%(settings)s' % env)
-    if 'south' in apps:
+    if 'south' in settings.INSTALLED_APPS:
         migrate(initial_data)
 
 
@@ -48,7 +50,6 @@ def migrate(initial_data=False):
                 execute('./manage.py migrate --no-initial-data --settings=%(settings)s' % env)
 
 
-@task
 def collect_static():
     from django.conf import settings
 
@@ -56,6 +57,5 @@ def collect_static():
     with cd(env.root):
         with virtualenv():
             execute('./manage.py collectstatic --noinput --settings=%(settings)s' % env)
-            if 'compress' in settings.INSTALLED_APPS:
+            if 'compressor' in settings.INSTALLED_APPS:
                 execute('./manage.py compress --force --settings=%(settings)s' % env)
-

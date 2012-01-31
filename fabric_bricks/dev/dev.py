@@ -14,8 +14,8 @@ def recreate_db():
     Recreate the db schema.
     """
     from django.conf import settings
-    dropdb(settings.INSTALLED_APPS)
-    syncdb(settings.INSTALLED_APPS, initial_data=True)
+    dropdb()
+    syncdb(initial_data=True)
 
 
 @task
