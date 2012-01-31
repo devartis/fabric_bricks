@@ -1,5 +1,5 @@
 from fabric.api import local, task
-from fabric_bricks.django.django import syncdb, dropdb
+from fabric_bricks.django_tasks.django_tasks import syncdb, dropdb
 from fabric_bricks.utils import execute
 
 
