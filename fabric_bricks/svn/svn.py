@@ -1,7 +1,18 @@
-from fabric.decorators import task
+from fabric.api import task, require, cd
 from fabric.operations import local, run
+from fabric.state import env
 from fabric.utils import abort
 
+from fabric_bricks.utils import execute
+
+@task
+def up():
+    """
+    Updates to the latest changes from SVN
+    """
+    require('root', provided_by=('An environment task'))
+    with cd(env.root):
+        execute('svn up')
 
 @task
 def create_tag(tag=None):
