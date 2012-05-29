@@ -18,11 +18,11 @@ def dropdb():
                 try:
                     # We need to split DROP TABLEs from DROP FK because MySQL aborts if the FK doesn't exists
                     try:
-                        execute('./manage.py sqlclear %(app)s --settings=%(settings)s | grep "DROP FOREIGN KEY" | ./manage.py dbshell --settings=%(settings)s' % {'app': app, 'settings': env.settings})
+                        execute('python manage.py sqlclear %(app)s --settings=%(settings)s | grep "DROP FOREIGN KEY" | ./manage.py dbshell --settings=%(settings)s' % {'app': app, 'settings': env.settings})
                     except:
                         # Ignore errors while dropping FK.
                         pass
-                    execute('./manage.py sqlclear %(app)s --settings=%(settings)s | grep "DROP TABLE" | ./manage.py dbshell --settings=%(settings)s' % {'app': app, 'settings': env.settings})
+                    execute('python manage.py sqlclear %(app)s --settings=%(settings)s | grep "DROP TABLE" | ./manage.py dbshell --settings=%(settings)s' % {'app': app, 'settings': env.settings})
                 except:
                     failed_apps.insert(0, app)
 
@@ -35,7 +35,7 @@ def syncdb(initial_data=False):
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
-            execute('./manage.py syncdb --noinput --settings=%(settings)s' % env)
+            execute('python manage.py syncdb --noinput --settings=%(settings)s' % env)
     if 'south' in settings.INSTALLED_APPS:
         migrate(initial_data)
 
@@ -45,9 +45,9 @@ def migrate(initial_data=False):
     with cd(env.root):
         with virtualenv():
             if initial_data:
-                execute('./manage.py migrate --settings=%(settings)s' % env)
+                execute('python manage.py migrate --settings=%(settings)s' % env)
             else:
-                execute('./manage.py migrate --no-initial-data --settings=%(settings)s' % env)
+                execute('python manage.py migrate --no-initial-data --settings=%(settings)s' % env)
 
 
 def collect_static():
@@ -56,6 +56,7 @@ def collect_static():
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
-            execute('./manage.py collectstatic --noinput --settings=%(settings)s' % env)
+            execute('python manage.py collectstatic --noinput --settings=%(settings)s' % env)
             if 'compressor' in settings.INSTALLED_APPS:
-                execute('./manage.py compress --force --settings=%(settings)s' % env)
+                execute('python manage.py compress --force --settings=%(settings)s' % env)
+

@@ -35,7 +35,7 @@ def virtualenv():
         workon_home = env.virtual_env_workon_home
 
     with prefix('export WORKON_HOME=%s' % workon_home):
-        with prefix('source /usr/local/bin/virtualenvwrapper.sh'):
+        with prefix('source $(which virtualenvwrapper.sh)'):
             return prefix('workon %(virtual_env_name)s' % env)
 
 
