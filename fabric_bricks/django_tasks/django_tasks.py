@@ -35,7 +35,7 @@ def syncdb(initial_data=False):
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
-            execute('python manage.py syncdb --noinput --settings=%(settings)s' % env)
+            execute('python manage.py syncdb --no-initial-data --noinput --settings=%(settings)s' % env)
     if 'south' in settings.INSTALLED_APPS:
         migrate(initial_data)
 
@@ -48,6 +48,13 @@ def migrate(initial_data=False):
                 execute('python manage.py migrate --settings=%(settings)s' % env)
             else:
                 execute('python manage.py migrate --no-initial-data --settings=%(settings)s' % env)
+
+
+def rebuild_index():
+    require('root', provided_by=('An environment task'))
+    with cd(env.root):
+        with virtualenv():
+            execute('python manage.py rebuild_index --settings=%(settings)s' % env)
 
 
 def collect_static():
