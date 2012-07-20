@@ -35,7 +35,7 @@ def syncdb(initial_data=False):
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
-            execute('python manage.py syncdb --no-initial-data --noinput --settings=%(settings)s' % env)
+            execute('python manage.py syncdb --noinput --settings=%(settings)s' % env)
     if 'south' in settings.INSTALLED_APPS:
         migrate(initial_data)
 
