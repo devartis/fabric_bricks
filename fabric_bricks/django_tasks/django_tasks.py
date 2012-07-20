@@ -54,7 +54,7 @@ def rebuild_index():
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
-            execute('python manage.py rebuild_index --settings=%(settings)s' % env)
+            execute('python manage.py rebuild_index --noinput --settings=%(settings)s' % env)
 
 
 def collect_static():
