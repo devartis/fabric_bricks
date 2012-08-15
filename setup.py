@@ -25,4 +25,7 @@ setup(name='fabric_bricks',
 	'fabric_bricks.svn',
         'fabric_bricks.virtualenv'
 	],
+    requires=[
+        'cuisine (==0.0.1)',
+        ],
     )
