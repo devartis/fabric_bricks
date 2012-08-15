@@ -27,5 +27,6 @@ setup(name='fabric_bricks',
 	],
     requires=[
         'cuisine (==0.0.1)',
+        'Fabric (<1.5)',
         ],
     )
