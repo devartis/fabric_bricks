@@ -4,13 +4,13 @@ from fabric_bricks.utils import execute
 
 
 @task
-def pull():
+def pull(tags=False):
     """
     Pulls latest changes from Git
     """
     require('root', provided_by=('An environment task'))
     with cd(env.root):
-        execute('git pull')
+        execute('git pull %s' % ('i--tags' if tags else ''))
 
 
 @task
