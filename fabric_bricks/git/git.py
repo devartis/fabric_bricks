@@ -10,7 +10,16 @@ def pull(tags=False):
     """
     require('root', provided_by=('An environment task'))
     with cd(env.root):
-        execute('git pull %s' % ('--tags' if tags else ''))
+        execute('git pull')
+
+@task
+def fetch(tags=False):
+    """
+    Fetches from Git
+    """
+    require('root', provided_by=('An environment task'))
+    with cd(env.root):
+        execute('git fetch %s' % ('--tags' if tags else ''))
 
 
 @task
