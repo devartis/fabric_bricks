@@ -4,7 +4,7 @@ from fabric_bricks.utils import execute
 
 
 @task
-def pull(tags=False):
+def pull():
     """
     Pulls latest changes from Git
     """
