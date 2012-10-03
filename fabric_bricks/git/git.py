@@ -10,7 +10,7 @@ def pull(tags=False):
     """
     require('root', provided_by=('An environment task'))
     with cd(env.root):
-        execute('git pull %s' % ('i--tags' if tags else ''))
+        execute('git pull %s' % ('--tags' if tags else ''))
 
 
 @task
