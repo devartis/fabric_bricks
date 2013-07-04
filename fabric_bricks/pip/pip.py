@@ -30,11 +30,11 @@ def uninstall(package=None):
 
 
 @task
-def install_dependencies():
+def install_dependencies(path='requirements.txt'):
     """
     Install dependencies defined in requirements.txt
     """
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
-            execute('pip install -r requirements.txt')
+            execute('pip install -r %s' % path)
