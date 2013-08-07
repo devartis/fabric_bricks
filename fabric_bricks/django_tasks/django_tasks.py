@@ -58,18 +58,11 @@ def rebuild_index():
 
 
 def collect_static():
-    require('root', provided_by=('An environment task'))
-    with cd(env.root):
-        with virtualenv():
-            execute('python manage.py collectstatic --noinput --settings=%(settings)s' % env)
-
-
-def compress():
     from django.conf import settings
 
     require('root', provided_by=('An environment task'))
     with cd(env.root):
         with virtualenv():
-            if 'compressor' in settings.INSTALLED_APPS:
+            execute('python manage.py collectstatic --noinput --settings=%(settings)s' % env)
+            if 'compressor' in settings.INSTALLED_APPS and getattr(settings, 'COMPRESS_ENABLED', False) and getattr(settings, 'COMPRESS_OFFLINE', False):
                 execute('python manage.py compress --force --settings=%(settings)s' % env)
-
