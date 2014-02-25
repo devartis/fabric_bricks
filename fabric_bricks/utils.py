@@ -1,5 +1,6 @@
 from random import Random
 from cuisine.cuisine import package_ensure
+from contextlib import contextmanager as _contextmanager
 from fabric.context_managers import prefix
 from fabric.api import run, local, require, prompt
 from fabric.state import env
@@ -23,11 +24,15 @@ def execute(*args, **kwargs):
         local(*args, **kwargs)
 
 
+@_contextmanager
 def virtualenv():
+    '''
+    This is a context manager: http://stackoverflow.com/a/5359988/155412
+    '''
     require('virtual_env_name')
 
     if not env.remote:
-        return prefix('echo')
+        yield
 
     if not hasattr(env, 'virtual_env_workon_home'):
         workon_home = '~/python_envs'
@@ -36,7 +41,8 @@ def virtualenv():
 
     with prefix('export WORKON_HOME=%s' % workon_home):
         with prefix('source $(which virtualenvwrapper.sh)'):
-            return prefix('workon %(virtual_env_name)s' % env)
+            with prefix('workon %(virtual_env_name)s' % env):
+                yield
 
 
 def strong_confirm(msg):
